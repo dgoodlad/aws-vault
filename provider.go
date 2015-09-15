@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/99designs/aws-vault/dialog"
 	"github.com/99designs/aws-vault/keyring"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -99,7 +100,8 @@ func (p *VaultProvider) getSessionToken(length time.Duration) (sts.Credentials, 
 	}
 
 	if mfa, ok := p.profilesConf[p.Profile]["mfa_serial"]; ok {
-		token, err := promptPassword(fmt.Sprintf("Enter token for %s: ", mfa))
+		// token, err := promptPassword(fmt.Sprintf("Enter token for %s: ", mfa))
+		token, err := dialog.Dialog(fmt.Sprintf("Enter token for %s: ", mfa))
 		if err != nil {
 			return sts.Credentials{}, err
 		}
