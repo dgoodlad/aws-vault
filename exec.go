@@ -42,6 +42,7 @@ func ExecCommand(ui Ui, input ExecCommandInput) {
 	)
 
 	if val.SessionToken != "" {
+		ui.Debug.Printf("Using session token %q", val.SessionToken)
 		env = append(env, "AWS_SESSION_TOKEN="+val.SessionToken)
 	}
 

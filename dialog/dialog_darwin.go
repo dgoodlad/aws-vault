@@ -33,9 +33,13 @@ char* Prompt(char *prompt) {
 import "C"
 import "unsafe"
 
-func Dialog(prompt string) (string, error) {
+func Dialog(prompt string) (string, bool) {
 	promptRef := C.CString(prompt)
 	defer C.free(unsafe.Pointer(promptRef))
 	val := C.Prompt(promptRef)
-	return C.GoString(val), nil
+	if val == nil {
+		return "", false
+	}
+
+	return C.GoString(val), true
 }
